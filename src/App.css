@@ -1,38 +1,162 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@700&display=swap'); */
+
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Ubuntu+Mono:wght@700&display=swap');
+html {
+    --color-dark: #475C7A;
+    --color-light: white;
+    --color-accent: #FCBB6D;
+    --color-primary: #D8737F;
+    --color-primary-stop: #AB6C82;
+    --gradient-start:#D8737F;
+    --gradient-end: #475C7A;
+    background-color: var(--gradient-start);
+}
+
 .App {
-  text-align: center;
+    text-align: center;
+    background-color: #00000000;
+    height:100vh;
+    margin:0;
+    padding:0;
+    color: var(--color-light);
+    background-image: linear-gradient(to bottom, var(--gradient-start), var(--gradient-end));
+}
+
+h1 {
+    font-family: 'Major Mono Display', monospace;
+    text-transform: lowercase;
+    font-weight: bolder;
+}
+
+h3 {
+    font-family: 'Major Mono Display', monospace;
+    text-transform: lowercase;
+    font-weight: bolder;
+}
+
+#locationHeader {
+    font-family: 'Major Mono Display', monospace;
+    text-transform: lowercase;
+    font-weight: bolder !important;
+}
+
+.svgText {
+    font-family: 'Major Mono Display', monospace;
+    text-transform: lowercase;
+    fill: var(--gradient-start);
+    text-align: center;
+    /* font-weight: bolder; */
+    text-anchor: middle;
+}
+
+.duskStopOne {
+    stop-color: var(--color-primary);
+    transition: 2s;
+}
+
+.duskStopTwo {
+    stop-color: var(--color-dark);
+    transition: 2s;
+}
+
+.sunriseStopOne {
+    stop-color: var(--color-accent);
+    transition: 2s;
+}
+
+.sunriseStopTwo {
+    stop-color: var(--color-primary);
+    transition: 2s;
+}
+
+.nightStopOne {
+    stop-color: var(--color-dark);
+    transition: 2s;
+}
+
+.nightStopTwo {
+    stop-color: var(--color-dark);
+    transition: 2s;
+}
+
+.defaultStopOne {
+    stop-color: var(--color-primary);
+    transition: 2s;
+}
+
+.defaultStopTwo {
+    stop-color: var(--color-primary);
+    transition: 2s;
+}
+
+.sunriseText {
+    color: var(--color-accent);
+    transition: 2s;
+}
+
+.nightText {
+    color: var(--color-dark);
+    transition: 2s;
+}
+
+
+/* 
+#svgTemperatureCircle {
+    background-image: linear-gradient(to bottom, #662A50, #191C25);
+} */
+
+.locationTemperature {
+    font-size: 5em;
+}
+
+.feelsLike {
+    font-size: 1.25em;
+}
+
+#temperatureSVG {
+    width: 80vw;
+    max-width: 400px;
+}
+
+.main-stop {
+    stop-color: var(--color-primary-stop);
+}
+
+.alt-stop {
+    stop-color: var(--color-dark);
 }
 
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
+    height: 40vmin;
+    pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: transparent;
 }
 
 .App-link {
-  color: #61dafb;
+    color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }

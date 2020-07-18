@@ -1,0 +1,25 @@
+form {
+  margin-top: 3rem;
+}
+
+form input[name="city"] {
+  background-color: transparent;
+  color: gray;
+  border: none;
+  border-bottom: 2px solid whitesmoke;
+  border-radius: 0;
+  font-size: large;
+  font-weight: bold;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+form button[name="search"] {
+  background-color: transparent;
+  color: gray;
+  border: none;
+  border-bottom: 2px solid whitesmoke;
+  border-radius: 0;
+  font-size: large;
+  font-weight: bold;
+}
