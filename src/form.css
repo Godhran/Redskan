@@ -1,25 +1,53 @@
 form {
-  margin-top: 3rem;
+    padding-top: 3rem;
 }
 
 form input[name="city"] {
-  background-color: transparent;
-  color: gray;
-  border: none;
-  border-bottom: 2px solid whitesmoke;
-  border-radius: 0;
-  font-size: large;
-  font-weight: bold;
-  text-align: center;
-  text-transform: capitalize;
+    background-color: rgba(255, 255, 255, 1);
+    color: #475C7A !important;
+    border: none !important;
+    /* border-bottom: 2px solid whitesmoke; */
+    border-radius: 20px;
+    font-size: large;
+    font-family: 'Major Mono Display';
+    font-weight: bold;
+    text-align: center;
+    text-transform: lowercase;
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: transparent !important;
+}
+
+*:focus {
+    outline: none;
+    box-shadow: none;
+    border-color: transparent;
 }
 
 form button[name="search"] {
-  background-color: transparent;
-  color: gray;
-  border: none;
-  border-bottom: 2px solid whitesmoke;
-  border-radius: 0;
-  font-size: large;
-  font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white !important;
+    border: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.75);
+    border-top: 2px solid rgba(255, 255, 255, 0.75);
+    font-family: 'Major Mono Display';
+    margin-top: 1em;
+    border-radius: 0;
+    font-size: large;
+    font-weight: bold;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+form button[name="geoSearch"] {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white !important;
+    border: 2px solid rgba(255, 255, 255, 0.75);
+    border-radius: 5em;
+    font-family: 'Major Mono Display';
+    margin-top: 1em;
+    font-size: large;
+    font-weight: bold;
+    outline: none !important;
+    box-shadow: none !important;
 }

@@ -7,31 +7,93 @@ html {
     --color-accent: #FCBB6D;
     --color-primary: #D8737F;
     --color-primary-stop: #AB6C82;
-    --gradient-start:#D8737F;
-    --gradient-end: #475C7A;
-    background-color: var(--gradient-start);
+    --gradient-start: #D8737F;
+    --gradient-end: #AB6C82;
+    /* background-color: var(--gradient-start); */
+    /* transition: 1s; */
+}
+
+html,
+body,
+#app,
+#app>div {
+    height: 100%
+}
+
+#forecastContainer {
+    height: 45vh;
+}
+
+#futureForecast {
+    font-family: 'Major Mono Display', monospace;
+    text-transform: lowercase;
 }
 
 .App {
     text-align: center;
-    background-color: #00000000;
-    height:100vh;
-    margin:0;
-    padding:0;
     color: var(--color-light);
-    background-image: linear-gradient(to bottom, var(--gradient-start), var(--gradient-end));
+    min-height: 100vh;
+    padding-bottom: 3em;
+    background: linear-gradient(180deg, var(--color-accent), var(--color-primary));
+    background-size: 400% 400%;
+    -webkit-animation: Gradient 15s ease infinite;
+    -moz-animation: Gradient 15s ease infinite;
+    animation: Gradient 15s ease infinite;
+}
+
+@-webkit-keyframes Gradient {
+    0% {
+        background-position: 50% 0%
+    }
+    50% {
+        background-position: 50% 100%
+    }
+    100% {
+        background-position: 50% 0%
+    }
+}
+
+@-moz-keyframes Gradient {
+    0% {
+        background-position: 50% 0%
+    }
+    50% {
+        background-position: 50% 100%
+    }
+    100% {
+        background-position: 50% 0%
+    }
+}
+
+@keyframes Gradient {
+    0% {
+        background-position: 50% 0%
+    }
+    50% {
+        background-position: 50% 100%
+    }
+    100% {
+        background-position: 50% 0%
+    }
 }
 
 h1 {
     font-family: 'Major Mono Display', monospace;
     text-transform: lowercase;
     font-weight: bolder;
+    font-size: 3em;
+    font-size: 1vw;
 }
 
 h3 {
     font-family: 'Major Mono Display', monospace;
     text-transform: lowercase;
     font-weight: bolder;
+    font-size: max(10vw, 30px);
+}
+
+#tomorrowForecast {
+    margin-top: 3em;
 }
 
 #locationHeader {
@@ -43,10 +105,63 @@ h3 {
 .svgText {
     font-family: 'Major Mono Display', monospace;
     text-transform: lowercase;
-    fill: var(--gradient-start);
+    fill: black;
     text-align: center;
-    /* font-weight: bolder; */
     text-anchor: middle;
+}
+
+.findMeForm {
+    padding-top: 0;
+}
+
+.locationButton {
+    width: 50px;
+    height: 50px;
+}
+
+.locationSVG {
+    width: 25px;
+    height: 25px;
+}
+
+.svgTextDisplay {
+    font-family: 'Major Mono Display', monospace;
+    text-transform: lowercase;
+    fill: white;
+    text-align: center;
+    text-anchor: middle;
+    font-weight: bolder;
+    font-size: 1.5em;
+}
+
+.svgTextForecast {
+    font-family: 'Major Mono Display', monospace;
+    text-transform: lowercase;
+    fill: white;
+    text-align: left;
+    text-anchor: start;
+    font-weight: bolder;
+}
+
+.svgTextForecastTemperature {
+    font-family: 'Major Mono Display', monospace;
+    text-transform: lowercase;
+    fill: white;
+    text-align: right;
+    text-anchor: end;
+    font-weight: bolder;
+}
+
+.defaultGradient {
+    /* background-image: linear-gradient(to bottom, var(--color-primary), var(--color-primary-stop)); */
+    background-color: var(--color-primary);
+    transition: 1s;
+}
+
+.nightGradient {
+    /* background-image: linear-gradient(to bottom, var(--color-dark), var(--color-dark)); */
+    background-color: var(--color-dark);
+    transition: 1s;
 }
 
 .duskStopOne {

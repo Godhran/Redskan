@@ -1,49 +1,79 @@
 import React from 'react';
-import {
-  XYPlot,
-  XAxis,
-  VerticalBarSeries,
-} from 'react-vis';
-
+import {Bar} from 'react-chartjs-2';
 
 export default class Example extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { 
-        index: null, preparedData:[] };
-    this.formatForecast();
-  }
-  formatForecast = () =>{
-    let dailyArray=[];
-    this.props.fiveDayForecast.forEach(function(weatherDataEntry) {
-        if(weatherDataEntry.dt_txt.substr(8,2)==="19"){
-            // Get HH:MM & Temperature in Celcius from Kelvin
-            dailyArray.push({x: weatherDataEntry.dt_txt.substr(11,5), y:  weatherDataEntry.main.temp-273.15});
-            console.log(dailyArray);
-        }
-    });
-    this.state.preparedData=dailyArray;
-  }
 
   render() {
-    const { index } = this.state;
-    // const dataWithColor = this.state.preparedData.map((d, i) => ({...d, color: Number(i !== index)}));
-    const colourisedData = this.state.preparedData.map(d => {
-                            let color = '#125C77';
-                            // if (d.hour === selectedHour) {
-                            // color = '#19CDD7';
-                            // }
-                            // if (d.hour === highlightedHour) {
-                            // color = '#17B8BE';
-                            // }
-                            return {...d, color};
-                        });
     return (
-      <div>
-        <XYPlot xType="ordinal" width={700} height={300} xDistance={20} onMouseLeave={() => this.setState({ index: null })}>
-          <XAxis />
-          <VerticalBarSeries className="vertical-bar-series-example" data={colourisedData} animation onNearestX={(d, { index }) => this.setState({ index })} />
-        </XYPlot>
+        <div id="forecastContainer">
+        <Bar
+          data={this.props.chartData}
+          width={100}
+          // height={350}
+          redraw
+          options={{
+            maintainAspectRatio: false,
+            legend: false,
+            layout: {
+              padding: {
+                top: 70,
+              },
+            },
+            tooltips: {
+                custom: function(tooltip) {
+                  if (!tooltip) return;
+                  // disable displaying the color box;
+                  tooltip.displayColors = false;
+                },
+                callbacks: {
+                    title: function(tooltipItem, data) {
+                      return data['labels'][tooltipItem[0]['index']];
+                    },
+                    label: function(tooltipItem, data) {
+                        return tooltipItem.value+"°c";
+                    },
+                },
+                yAlign: 'bottom',
+                backgroundColor: '#475C7A',
+                titleFontFamily:'Major Mono Display',
+                titleFontSize: 20,
+                titleFontColor: 'white',
+                titleAlign:'center',
+                bodyFontColor: 'white',
+                bodyFontFamily:'Major Mono Display',
+                bodyAlign:'center',
+                bodyFontSize: 16
+              },
+            scales: {
+                xAxes: [{
+                    ticks:{
+                        fontColor:'white',
+                        fontFamily:'Major Mono Display',
+                        fontStyle:'bolder'
+                    },
+                  gridLines: {
+                    display: false
+                  }
+                }],
+                yAxes: [{
+                    ticks: {
+                      // Include a dollar sign in the ticks
+                      callback: function(value, index, values) {
+                          return value+"°c";
+                      },
+                        beginAtZero: true,
+                        fontColor: 'white',
+                        fontFamily:'Major Mono Display',
+                        fontStyle:'bolder'
+                    },
+                  gridLines: {
+                    color:'rgba(255,255,255,0.5)',
+                    zeroLineColor: 'rgba(255,255,255,0.5)'
+                  }
+                }]
+              }
+          }}
+        />
       </div>
     );
   }

@@ -1,158 +1,136 @@
 import React from "react";
 import "../App.css";
 import TemperatureChart from "./TemperatureChart";
+import FutureForecast from "./FutureForecast";
+import { getIcon } from "../WeatherConditions";
+import {kelvinToCelcius, getCardinalWindDirection, getWindBeaufortValue} from "../util"
+
+const ReactFitText = require('react-fittext');
 
 class Weather extends React.Component {
+  nextDay = () =>{
+    let forecastChartData = {
+      labels: [],
+      datasets: [
+        {
+          backgroundColor: 'rgba(255,255,255,1)',
+          borderColor: 'transparent',
+          borderWidth: 0,
+          hoverBackgroundColor: 'rgba(255,255,255,1)',
+          hoverBorderColor: 'transparent',
+          data: []
+        }
+      ]
+    };
 
-  // colourTimes=[{time:"dusk",stopOne:"var(--color-primary)",stopTwo:"var(--color-dark)"},{time:"night",stopOne:"var(--color-dark)",stopTwo:"var(--color-dark)"}];
-  // currentColour = this.colourTimes[0];
+    let nextDayArray=this.props.fiveDayForecast.slice(0,8);
+    let dailyArrayLabels=[];
+    let dailyArrayData=[];
+
+    nextDayArray.forEach(weatherDataEntry=>{
+      dailyArrayData.push((weatherDataEntry.main.temp-273.15).toFixed(1));
+      dailyArrayLabels.push(weatherDataEntry.dt_txt.substr(11,5));
+    });
+
+    forecastChartData.labels=dailyArrayLabels;
+    forecastChartData.datasets[0].data=dailyArrayData;
+    return forecastChartData;
+  }
   
-  constructor(props) {
-    super(props);
-    this.state = { 
-      timeOfDayDetected:false 
-      };
+  getDailyWeatherForecast(){
+    let tempData=[];
+
+    for(let day=1;day<6;day++){
+      let weatherIcon = getIcon(this.props.fiveDayForecast[(day*8)-1].weather[0].icon);
+      let tempDataElement=this.props.fiveDayForecast[(day*8)-1];
+      tempDataElement.weatherIcon = weatherIcon;
+      tempDataElement.key = day;
+      tempData.push(tempDataElement);   
+    }
+
+    return tempData;
   }
 
-  handleClicked() {
-    this.props.clickHandler();
-  }
 
-  kelvinToCelcius = (temperature) =>{
-    return (temperature-273.15).toFixed(0);
-  }
-
-  convertDate =  () =>{
-console.log(this.timeOfDayDetected)
-this.state.timeOfDayDetected=true;
-console.log(this.timeOfDayDetected)
-  }
-  
-  onClick =()=>{
-    console.log("Boo");
-    // this.state.timeOfDayDetected=this.state.timeOfDayDetected?false:true;
-    const currentState = this.state.timeOfDayDetected;
-    this.setState({ timeOfDayDetected: !currentState });
-    // console.log(this.state.timeOfDayDetected);
-  }
 
   render() {
-    // if(this.props.timeData.sunrise){
-    //   let currentTime = new Date().getTime();
-    //   console.log(currentTime);
-    //   console.log(this.props.timeData.sunrise);
-    //   console.log(currentTime-(this.props.timeData.sunrise*1000));
-    //   console.log(this.convertDate());
-    // }
-    let testStopClassOne='sunriseStopOne';
-    let testStopClassTwo='defaultStopOne';
-    let testTextClass='nightText';
+    let weatherIcon = getIcon(this.props.iconCode);
 
     return (
-      <div className="container">
+      <div className="container testclass" >
         <div className="cards pt-4">
             {this.props.city && (
+              <ReactFitText maxFontSize={40}>
           <h1 id="locationHeader">
                 {this.props.city},{this.props.country}
           </h1>
+          </ReactFitText>
             )}
 
           {this.props.city && (
-          <svg version="1.1" id="temperatureSVG" x="0px" y="0px" viewBox="0 0 400 400" onClick={this.onClick}>
-            {/* <mask id="temperatureTextMask">
-              <text className="svgText locationTemperature" x="50%" y="42.5%" dominantBaseline="middle" textRendering="geometricPrecision">{this.kelvinToCelcius(this.props.currentTemperature.temp)}°C</text>
-              <text className="svgText feelsLike" x="50%" y="57.5%" dominantBaseline="middle" textRendering="geometricPrecision">feels like {this.kelvinToCelcius(this.props.currentTemperature.feels_like)}°C</text>
-            </mask>
-            <linearGradient id="gradient" gradientTransform="rotate(90)">
-              <stop className={`${this.state.timeOfDayDetected ? "nightStopTwo" : testStopClassOne+ " nightStopTwo"}`} offset="0%" />
-              <stop className={`${this.state.timeOfDayDetected ? "nightStopTwo" : testStopClassTwo+ " nightStopTwo"}`} offset="100%" />
-            </linearGradient> */}
-            <circle id="svgTemperatureCircle" cx="200" cy="200" r="40%" fill="var(--color-light)" />
-            <text className="svgText locationTemperature" x="50%" y="42.5%" dominantBaseline="middle" textRendering="geometricPrecision">{this.kelvinToCelcius(this.props.currentTemperature.temp)}°C</text>
-            <text className="svgText feelsLike" x="50%" y="57.5%" dominantBaseline="middle" textRendering="geometricPrecision">feels like {this.kelvinToCelcius(this.props.currentTemperature.feels_like)}°C</text>
-          </svg>
-            )}
+          <svg version="1.1" id="temperatureSVG" x="0px" y="0px" viewBox="0 0 400 400">
 
+
+            <defs>
+              <mask id="dataDisplay">
+                <rect width="100%" height="100%" fill="white"/>
+                  {weatherIcon.paths.map(function(pathElement, index){
+                    return <path fill="black" key={index} d={pathElement}/>;
+                  })}
+                <text className="svgText locationTemperature" fontFamily="Major Mono Display" x="50%" y="42.5%" dominantBaseline="middle" textRendering="geometricPrecision">{kelvinToCelcius(this.props.currentTemperature.temp)}°C</text>
+                <text className="svgText feelsLike" fontFamily="Major Mono Display" x="50%" y="57.5%" dominantBaseline="middle" textRendering="geometricPrecision">feels like {kelvinToCelcius(this.props.currentTemperature.feels_like)}°C</text>
+              </mask>
+            </defs>
+            <circle id="svgTemperatureCircle" cx="200" cy="200" r="40%" fill="var(--color-light)"  mask="url(#dataDisplay)"/>
+           </svg>
+            )}
+          
           {this.props.city && (
-            <h3 id="temperatureMinMax" className={`${this.state.timeOfDayDetected ? testTextClass : ""}`}>
-            Hi {this.kelvinToCelcius(this.props.currentTemperature.temp_min)}°C  | Lo {this.kelvinToCelcius(this.props.currentTemperature.temp_max)}°C
-            </h3>
+            <ReactFitText maxFontSize={18}>
+              <h3 id="temperatureMinMax">
+                {this.props.fiveDayForecast[0].weather[0].description}
+              </h3>
+            </ReactFitText>
           )}
 
-          <h1 className="py-2">
-            {this.props.kelvinTemp && (
-              <p>
-                <i className="fas fa-thermometer-three-quarters"></i>{" "}
-                <span onClick={this.handleClicked.bind(this)}>
-                  {this.calculateTemp(
-                    this.props.kelvinTemp,
-                    this.props.displayUnits
-                  )}
-                  &deg;
-                  {this.props.displayUnits}
-                </span>
-              </p>
-            )}
-          </h1><br></br>
-          <h4 className="py-6">
-            {this.props.description && (
-              <p>
-                {" "}
-                <i className="fas fa-info"></i>{" "}
-                <span>{this.props.description}</span>
-              </p>
-            )}
-          </h4>
-          <h4 className="py-3">
-            {this.props.tempMin && this.props.tempMax && (
-              <p>
-                {" "}
-                <i className="fas fa-sort"></i> Min/Max:{" "}
-                <span onClick={this.handleClicked.bind(this)}>
-                  {this.calculateTemp(
-                    this.props.tempMin,
-                    this.props.displayUnits
-                  )}
-                  &deg;{this.props.displayUnits} |
-                  {this.calculateTemp(
-                    this.props.tempMax,
-                    this.props.displayUnits
-                  )}
-                  &deg;
-                  {this.props.displayUnits}
-                </span>
-              </p>
-            )}
-          </h4>
-          <h4 className="py-4">
-            {this.props.humidity && (
-              <p>
-                {" "}
-                <i className="fas fa-water"></i> Humidity:{" "}
-                <span>{this.props.humidity}%</span>
-              </p>
-            )}
-          </h4>
-          <h4 className="py-5">
-            {this.props.pressure && (
-              <p>
-                {" "}
-                <i className="fas fa-tachometer-alt"></i> Pressure:{" "}
-                <span>{this.props.pressure} hPa</span>
-              </p>
-            )}
-          </h4>
-          <h4>
-            {this.props.error && (
-              <p>
-                {" "}
-                <i></i> <span>{this.props.error}</span>
-              </p>
-            )}
-          </h4>
-          {/* {this.props.fiveDayForecast && (
-            <TemperatureChart fiveDayForecast = { this.props.fiveDayForecast } />
-          )} */}
+          {this.props.city && (
+            <ReactFitText maxFontSize={18}>
+              <h3 id="temperatureMinMax">
+          {getCardinalWindDirection(this.props.windDirection)} {getWindBeaufortValue(this.props.windSpeed.toFixed(1))} {this.props.windSpeed.toFixed(1)}m/s
+              </h3>
+            </ReactFitText>
+          )}
+
+          
+          {this.props.city && (
+            <ReactFitText maxFontSize={16}>
+              <h3 id="temperatureMinMax">
+                Hi {kelvinToCelcius(this.props.currentTemperature.temp_min)}°C || Lo {kelvinToCelcius(this.props.currentTemperature.temp_max)}°C
+              </h3>
+            </ReactFitText>
+          )}
+
+          {this.props.city && (
+            <ReactFitText maxFontSize={16}>
+              <h3 id="temperatureMinMax">
+                {this.props.currentTemperature.humidity}% Humidity
+              </h3>
+            </ReactFitText>
+          )}
+
+          {this.props.fiveDayForecast && (
+            <div id="tomorrowForecast">
+              <ReactFitText maxFontSize={28}>
+              <h3 id="temperatureMinMax">Next 24 hours</h3>
+            </ReactFitText>
+              <TemperatureChart fiveDayForecast = { this.props.fiveDayForecast }  chartData={ this.nextDay() }/>
+            </div>
+          )}
+          {this.props.fiveDayForecast && (
+            <div id="futureForecast">
+              <FutureForecast fiveDayForecast = { this.props.fiveDayForecast } dailyWeather={ this.getDailyWeatherForecast() }/>
+            </div>
+          )}
         </div>
       </div>
     );
