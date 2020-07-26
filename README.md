@@ -6,7 +6,7 @@ Redskan is a colorful weather application using ReactJS, OpenWeatherMap and SVG 
 ## Packages In Use
 - [ReactJS](https://reactjs.org/)
 - [chartJS](https://www.chartjs.org/)
-- [GSAP](GreenSock Animation Platform)](https://www.npmjs.com/package/gsap)
+- [GreenSock Animation Platform](https://www.npmjs.com/package/gsap)
 - [OpenWeatherMap](https://openweathermap.org/)
 - [Netlify](https://www.netlify.com/)
 
